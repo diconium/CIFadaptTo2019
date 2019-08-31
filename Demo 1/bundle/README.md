@@ -1,6 +1,6 @@
 # Simple Javascript Action
 
-This is a simple action, where the file has plain JS code.
+This is a bundled action, this action will be created by bundling a JS file with dependencies using Rollup, and then install that bundled file instead of the index.js file.
 
 ## Install
 
