@@ -6,4 +6,4 @@ function justifyArrayLines(args) {
   return { padded: lines.map(line => leftPad(line, 50, " ")) }
 }
 
-export const main = myAction
+export const main = justifyArrayLines
