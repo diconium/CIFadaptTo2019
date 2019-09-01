@@ -1,0 +1,87 @@
+service: customer-deployment
+
+package:
+  individually: true
+  exclude:
+  - ./**
+
+provider:
+  name: openwhisk
+  runtime: nodejs:10
+  ignore_certs: true
+
+custom:
+  customer-namespace: ${opt:customer-namespace, file(package.json):customer-namespace}
+  customer-package: ${opt:customer-package, file(package.json):customer-package}
+  bindings-namespace: ${opt:bindings-namespace, file(package.json):bindings-namespace}
+
+  categories-actions: /${self:custom.customer-namespace}/customer-commerce-cif-hybris-categories@latest
+  common-actions: /${self:custom.customer-namespace}/customer-commerce-cif-hybris-common@latest
+  products-actions: /${self:custom.customer-namespace}/customer-commerce-cif-hybris-products@latest
+
+  hybris:
+    HB_BASESITEID: ${opt:basesiteid, file(options.yml):HB_BASESITEID}
+    HB_CLIENTID: ${opt:clientid, file(options.yml):HB_CLIENTID}
+    HB_CLIENTSECRET: ${opt:clientsecret, file(options.yml):HB_CLIENTSECRET}
+    HB_USER: ${opt:clientid, file(options.yml):HB_USER}
+    HB_PASSWORD: ${opt:clientsecret, file(options.yml):HB_PASSWORD}
+    HB_PROTOCOL: ${opt:protocol, file(options.yml):HB_PROTOCOL}
+    HB_API_HOST: ${opt:apihost, file(options.yml):HB_API_HOST}
+    HB_API_BASE_PATH: ${opt:apibasepath, file(options.yml):HB_API_BASE_PATH}
+    HB_OAUTH_HOST: ${opt:authhost, file(options.yml):HB_OAUTH_HOST}
+    HB_OAUTH_PATH: ${opt:authhost, file(options.yml):HB_OAUTH_PATH}
+    HB_AUTH: ${opt:auth, file(options.yml):HB_AUTH}
+    HB_CATALOG: ${opt:catalog, file(options.yml):HB_CATALOG}
+    HB_CATALOGVERSION: ${opt:catalogversion, file(options.yml):HB_CATALOGVERSION}
+
+plugins:
+- serverless-openwhisk
+
+resources:
+  packages:
+    customer-commerce-cif-hybris-categories@latest:
+      binding: /${self:custom.bindings-namespace}/commerce-cif-hybris-categories@latest
+      parameters: ${self:custom.hybris}
+    customer-commerce-cif-hybris-common@latest:
+      binding: /${self:custom.bindings-namespace}/commerce-cif-hybris-common@latest
+    customer-commerce-cif-hybris-products@latest:
+      binding: /${self:custom.bindings-namespace}/commerce-cif-hybris-products@latest
+      parameters: ${self:custom.hybris}
+      
+functions:
+
+  searchProducts:
+    name: ${self:custom.customer-package}/searchProducts
+    sequence:
+    - ${self:custom.products-actions}/validateSearchProductsService
+    - ${self:custom.products-actions}/searchProductsService
+    - ${self:custom.common-actions}/webActionTransformer
+    annotations:
+      web-export: true
+
+  getProductById:
+    name: ${self:custom.customer-package}/getProductById
+    sequence:
+    - ${self:custom.products-actions}/validateGetProductService
+    - ${self:custom.products-actions}/getProductService
+    - ${self:custom.common-actions}/webActionTransformer
+    annotations:
+      web-export: true
+
+  getCategoryById:
+    name: ${self:custom.customer-package}/getCategoryById
+    sequence:
+    - ${self:custom.categories-actions}/validateGetCategoryService
+    - ${self:custom.categories-actions}/getCategoryService
+    - ${self:custom.common-actions}/webActionTransformer
+    annotations:
+      web-export: true
+
+  getCategories:
+    name: ${self:custom.customer-package}/getCategories
+    sequence:
+    - ${self:custom.categories-actions}/validateGetCategoriesService
+    - ${self:custom.categories-actions}/getCategoriesService
+    - ${self:custom.common-actions}/webActionTransformer
+    annotations:
+      web-export: true

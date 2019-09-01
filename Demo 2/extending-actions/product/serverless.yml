@@ -1,0 +1,23 @@
+---
+service: adaptTo
+
+package:
+  individually: true
+  exclude:
+    - ./**
+
+provider:
+  name: openwhisk
+  ignore_certs: true
+  defaultService: adaptTo
+  service: ${opt:service, self:provider.defaultService}
+
+plugins:
+  - serverless-openwhisk
+  - serverless-webpack
+
+functions:
+  getProductService:
+    name: adaptTo/getProductService
+    handler: lib/actions/products.getById
+    concurrency: 500
