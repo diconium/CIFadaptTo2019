@@ -6,6 +6,8 @@ export default class ProductMapper extends CoreProductMapper {
   mapToEntity(dto, entity?): Product {
     const product = super.mapToEntity(dto, entity);
 
+product.name = product.name.toUpperCase();
+
     return product;
   }
 }

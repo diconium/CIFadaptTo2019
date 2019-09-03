@@ -63,7 +63,7 @@ functions:
     name: ${self:custom.customer-package}/getProductById
     sequence:
     - ${self:custom.products-actions}/validateGetProductService
-    - ${self:custom.products-actions}/getProductService
+    - ${self:custom.products-actions}/getProductService #Replace with the deployed version of the extend getProductService in the format /YOUR_NAMESPACE_HERE/adaptTo2019/getProductServiceExtended
     - ${self:custom.common-actions}/webActionTransformer
     annotations:
       web-export: true

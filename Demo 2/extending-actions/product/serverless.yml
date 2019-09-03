@@ -18,6 +18,6 @@ plugins:
 
 functions:
   getProductService:
-    name: adaptTo/getProductService
+    name: adaptTo2019/getProductServiceExtended
     handler: lib/actions/products.getById
     concurrency: 500

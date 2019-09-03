@@ -8,9 +8,9 @@
     "serverless": "1.29.0",
     "serverless-openwhisk": "0.18.1"
   },
-  "customer-namespace": "cif-customer",
-  "customer-package": "hybris-cif-catalog",
-  "bindings-namespace": "cif-core",
+  "customer-namespace": "YOUR_NAMESPACE_HERE",
+  "customer-package": "adaptTo2019Live",
+  "bindings-namespace": "hybris-cif-catalog",
   "scripts": {
     "deploy": "serverless deploy",
     "clean": "serverless remove"

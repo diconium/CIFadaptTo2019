@@ -1,0 +1,10 @@
+<sly data-sly-test="${!properties.productId}">
+    Choose a product from dialog.
+</sly>
+
+<sly data-sly-test="${properties.productId}">
+    <product-information data-sly-attribute.data-id="${properties.productId}"></product-information>
+</sly>
+
+<sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"></sly>
+<sly data-sly-call="${clientlib.js @ categories='adaptTo'}"></sly>

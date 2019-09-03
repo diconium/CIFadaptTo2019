@@ -22,5 +22,5 @@ Run the code following commands to create the justifyRight action.
 ## Invoke
 
   ```
-  wsk action invoke --result justifyRight --param lines "[\"As armas e os barões assinalados\", \"Que da ocidental praia Lusitana\", \"Por mares nunca de antes navegados\", \"Passaram ainda além da Taprobana\" ]"  
+  wsk action invoke --result justifyRight --param lines "[\"Roses are red\", \"Violets are blue\", \"I'm a terrible poet\" ]"  
   ```

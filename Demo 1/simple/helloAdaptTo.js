@@ -1,3 +1,3 @@
 function main() {
-    return { msg: FILL_WITH_MESSAGE };
+    return { msg: "hello from adaptTo 2019" };
 }
